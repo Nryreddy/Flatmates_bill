@@ -2,6 +2,7 @@ import webbrowser
 
 from fpdf import FPDF
 
+import os
 
 class PdfReport:
     """
@@ -16,7 +17,7 @@ class PdfReport:
         pdf = FPDF(orientation='P',unit='pt',format='A4')
         pdf.add_page()
 
-        pdf.image('img.png',w=100,h=100)
+        pdf.image('files/img.png',w=100,h=100)
 
         pdf.set_font(family='Times',size=24,style='B')
         pdf.cell(w=0,h=80,txt='Flatmates Bill',border=0,align='C',ln=1)
@@ -30,7 +31,11 @@ class PdfReport:
             pdf.cell(w=100,h=40,txt=x,border=0,align='C')
             pdf.cell(w=200,h=40,txt=str(flatmate_info.get(x)),border=0,align='C',ln=1)
 
+        pdf.set_font(family='Times', size=16, style='B')
+        pdf.cell(w=100, h=40, txt='Total Bill', border=0, align='C')
+        pdf.cell(w=200, h=40, txt=str(bill.amount), border=0, align='C', ln=1)
 
+
+        os.chdir('files')
         pdf.output(self.filename)
-
         webbrowser.open(self.filename)
